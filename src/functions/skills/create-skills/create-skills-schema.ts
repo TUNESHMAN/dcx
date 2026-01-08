@@ -1,5 +1,3 @@
-import { title } from "process";
-
 export const schema = {
   $schema: "http://json-schema.org/draft-07/schema#",
   title: "Skill",

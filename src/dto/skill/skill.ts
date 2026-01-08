@@ -8,18 +8,3 @@ export interface Skill {
   createdAt: string;
   updatedAt: string;
 }
-
-export interface SkillDbItem extends Skill {
-  PK: "SKILL";
-  SK: `SKILL#${string}`;
-  entityType: "Skill";
-  nameLower: string;
-}
-
-export interface SkillNameGuardDdbItem {
-  PK: `SKILLNAME#${string}`;
-  SK: "SKILL";
-  entityType: "SkillNameGuard";
-  skillId: string;
-  createdAt: string;
-}

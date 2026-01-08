@@ -47,6 +47,12 @@ export function errorHandler(error: Error | unknown): APIGatewayProxyResult {
     errorName: errorMessage,
     statusCode,
   });
-
-  throw createError.InternalServerError(errorMessage);
+  return {
+    statusCode,
+    body: JSON.stringify({
+      errorMessage,
+      statusCode,
+    }),
+  };
+  // throw createError.InternalServerError(errorMessage);
 }
