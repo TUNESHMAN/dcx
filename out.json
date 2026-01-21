@@ -1,1 +1,1 @@
-{"statusCode":200,"body":"{\"message\":\"Migrations applied\",\"applied\":[\"schema/001_init.sql\"],\"skipped\":[\"migrations/002_create_skills.sql\",\"migrations/003_create_consultancies.sql\",\"migrations/004_add_consultancy_logo.sql\"]}"}
+{"statusCode":200,"body":"{\"message\":\"Migrations applied\",\"applied\":[\"schema/001_init.sql\",\"migrations/002_create_skills.sql\",\"migrations/003_create_consultancies.sql\",\"migrations/007_create_consultants.sql\"],\"skipped\":[]}"}

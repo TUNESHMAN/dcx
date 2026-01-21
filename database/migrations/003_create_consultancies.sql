@@ -8,7 +8,11 @@ create table if not exists dcx.consultancies (
   city text not null default '',
   region text not null default '',
   timezone text not null default '',
-  status text not null,
+  status text not null check (status in ('active', 'disabled')) default 'active',
+  logo_key text null,
+  logo_url text null,
+  logo_content_type text null,
+  logo_updated_at timestamptz null,
   created_at timestamptz not null,
   updated_at timestamptz not null
 );
