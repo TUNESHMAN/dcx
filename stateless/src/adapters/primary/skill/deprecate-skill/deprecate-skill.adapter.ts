@@ -88,13 +88,10 @@ export const deprecateSkillHandler = async (
 
     const updatedAt = new Date().toISOString();
 
-    // ✅ Business action (no SQL here)
     await deprecateSkillUseCase(skillId, updatedAt);
 
-    // Fetch updated record for response
     const updated = (await getSkillUseCase(skillId)) as SkillDbRow | null;
 
-    // Extremely rare: deleted between update and refetch
     if (!updated) {
       metrics.addMetric(
         "DeprecateSkillNotFoundAfterUpdate",

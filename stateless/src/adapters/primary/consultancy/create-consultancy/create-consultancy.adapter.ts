@@ -139,7 +139,7 @@ export const createConsultancyHandler = async (
 
     const specialtySkillIds = normalizeSkillIds(payload.specialtySkillIds);
 
-    // Validate specialty skills exist + active (same pattern as create-consultant)
+    // Validate specialty skills exist + active
     let specialtySkills: CreateConsultancyResponse["specialtySkills"] = [];
     if (specialtySkillIds.length > 0) {
       const rows = (await getSkillsByIdsUseCase(

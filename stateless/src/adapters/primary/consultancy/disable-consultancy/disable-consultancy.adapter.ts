@@ -6,11 +6,9 @@ import { captureLambdaHandler } from "@aws-lambda-powertools/tracer/middleware";
 import { MetricUnit, Metrics } from "@aws-lambda-powertools/metrics";
 import { logMetrics } from "@aws-lambda-powertools/metrics/middleware";
 import { injectLambdaContext } from "@aws-lambda-powertools/logger/middleware";
-
 import { ValidationError } from "../../../../errors/validation-error";
 import { errorHandler } from "../../../../shared/error-handler/error-handler";
 import { logger } from "../../../../shared/logger/logger";
-
 import { Consultancy } from "../../../../dto/consultancy/consultancy";
 import { config } from "../../../../config";
 
@@ -74,9 +72,6 @@ export const disableConsultancyHandler = async (
     const specialtySkillIds = await getConsultancySpecialtySkillIdsUseCase(
       consultancyId
     );
-
-    // We don’t re-fetch the full consultancy row here (keeps adapter simple).
-    // If you want full object (name/aboutUs/etc), create a `getConsultancyByIdUseCase`.
     const consultancy: Partial<Consultancy> = {
       consultancyId,
       status: "disabled",

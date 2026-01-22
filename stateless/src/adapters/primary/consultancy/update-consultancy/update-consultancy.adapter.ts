@@ -87,7 +87,7 @@ export const updateConsultancyHandler = async (
       throw new ValidationError("No updatable fields provided");
     }
 
-    // 1) Existence + status check (via use case)
+    // Existence and status check
     const consultancy = await getConsultancyUseCase(consultancyId);
     if (!consultancy) {
       metrics.addMetric("UpdateConsultancyNotFound", MetricUnit.Count, 1);
@@ -113,7 +113,6 @@ export const updateConsultancyHandler = async (
       };
     }
 
-    // 2) Transform payload -> updates (business logic stays here in lambda)
     const now = new Date().toISOString();
 
     const updates: UpdateConsultancyUpdates = {
@@ -147,10 +146,6 @@ export const updateConsultancyHandler = async (
         updates.timezone = normalizeText(loc.timezone);
     }
 
-    // Logo rules:
-    // - logo undefined => no change
-    // - logo null => remove logo fields + logoUpdatedAt = null
-    // - logo object => set provided values (empty string allowed if schema permits) + logoUpdatedAt = now
     if (payload.logo !== undefined) {
       if (payload.logo === null) {
         updates.logoKey = null;
@@ -165,13 +160,10 @@ export const updateConsultancyHandler = async (
         updates.logoKey = key || null;
         updates.logoUrl = url || null;
         updates.logoContentType = contentType || null;
-
-        // only bump logoUpdatedAt if you are "setting" logo (even partial)
         updates.logoUpdatedAt = now;
       }
     }
 
-    // 3) Persist (use case)
     await updateConsultancyUseCase(consultancyId, updates);
 
     metrics.addMetric("UpdateConsultancySuccess", MetricUnit.Count, 1);
@@ -181,7 +173,6 @@ export const updateConsultancyHandler = async (
       updatedFields: Object.keys(updates).filter((k) => k !== "updatedAt"),
     });
 
-    // 4) Response (reflect intended updates)
     return {
       statusCode: 200,
       body: JSON.stringify({

@@ -6,12 +6,10 @@ import { captureLambdaHandler } from "@aws-lambda-powertools/tracer/middleware";
 import { MetricUnit, Metrics } from "@aws-lambda-powertools/metrics";
 import { logMetrics } from "@aws-lambda-powertools/metrics/middleware";
 import { injectLambdaContext } from "@aws-lambda-powertools/logger/middleware";
-
 import { ValidationError } from "../../../../errors/validation-error";
 import { errorHandler } from "../../../../shared/error-handler/error-handler";
 import { logger } from "../../../../shared/logger/logger";
 import { config } from "../../../../config";
-
 import { getConsultantUseCase } from "../../../../use-cases/get-consultant";
 import { archiveConsultantUseCase } from "../../../../use-cases/archive-consultant";
 

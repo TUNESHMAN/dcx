@@ -1,18 +1,15 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import middy from "@middy/core";
 import httpErrorHandler from "@middy/http-error-handler";
-
 import { Tracer } from "@aws-lambda-powertools/tracer";
 import { captureLambdaHandler } from "@aws-lambda-powertools/tracer/middleware";
 import { MetricUnit, Metrics } from "@aws-lambda-powertools/metrics";
 import { logMetrics } from "@aws-lambda-powertools/metrics/middleware";
 import { injectLambdaContext } from "@aws-lambda-powertools/logger/middleware";
-
 import { ValidationError } from "../../../../errors/validation-error";
 import { errorHandler } from "../../../../shared/error-handler/error-handler";
 import { logger } from "../../../../shared/logger/logger";
 import { config } from "../../../../config";
-
 import { getConsultantUseCase } from "../../../../use-cases/get-consultant";
 import { deleteConsultantUseCase } from "../../../../use-cases/delete-consultant";
 

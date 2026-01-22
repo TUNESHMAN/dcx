@@ -57,7 +57,6 @@ export const getConsultantsUseCase = async (input: GetConsultantsInput) => {
     ...(search
       ? [
           {
-            // ✅ No dependency on full_name_canonical; works with your current schema
             clause: `c.full_name ILIKE __PARAM__`,
             params: [`%${search}%`],
           },
@@ -114,8 +113,6 @@ export const getConsultantsUseCase = async (input: GetConsultantsInput) => {
       "c.country": input.country,
       "c.city": input.city,
     },
-
-    // ✅ Use extraWhere for search + skillId (no canonical column required)
     ...(extraWhere.length > 0 ? { extraWhere } : {}),
   });
 

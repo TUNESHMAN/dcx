@@ -113,7 +113,6 @@ export const updateConsultantHandler = async (
     if (!hasAnyUpdate)
       throw new ValidationError("No updatable fields provided");
 
-    // ✅ Existence check (+ status)
     const consultant = (await getConsultantUseCase(
       consultantId
     )) as unknown as ConsultantStatusRow | null;
@@ -216,14 +215,13 @@ export const updateConsultantHandler = async (
 
         updates.availability = { availabilityStatus, availableFrom };
       } else {
-        // available_now => clear availableFrom
+        // available_now will clear availableFrom
         updates.availability = { availabilityStatus, availableFrom: null };
       }
 
       hasConsultantFieldUpdates = true;
     }
 
-    // ---- Skills validation + replace join rows ONLY if skillIds provided ----
     let normalizedSkillIds: string[] | undefined;
 
     if (payload.skillIds !== undefined) {
@@ -262,13 +260,10 @@ export const updateConsultantHandler = async (
       }
     }
 
-    // ---- Persist ----
-    // Only write consultant row if we actually updated any consultant fields
     if (hasConsultantFieldUpdates) {
       await updateConsultantUseCase(consultantId, updates);
     }
 
-    // Replace skills ONLY when provided (empty array clears all)
     if (normalizedSkillIds !== undefined) {
       await replaceConsultantSkillsUseCase({
         consultantId,

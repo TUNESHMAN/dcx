@@ -60,11 +60,6 @@ export const getConsultanciesUseCase = async (input: GetConsultanciesInput) => {
       "c.city": input.city,
       "c.region": input.region,
     },
-
-    // you were using name_canonical ILIKE for search
-    // If you keep that, you can add a second helper for ilike,
-    // OR just store a lowered column and use likeLower.
-    // For now, reuse likeLower with a lowered column if you have it.
     likeLower: input.search
       ? { column: "c.name_canonical", term: input.search }
       : undefined,

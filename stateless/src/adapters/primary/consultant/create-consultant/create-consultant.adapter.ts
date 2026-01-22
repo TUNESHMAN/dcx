@@ -2,26 +2,21 @@ import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import middy from "@middy/core";
 import httpErrorHandler from "@middy/http-error-handler";
 import { randomUUID } from "node:crypto";
-
 import { Tracer } from "@aws-lambda-powertools/tracer";
 import { captureLambdaHandler } from "@aws-lambda-powertools/tracer/middleware";
 import { MetricUnit, Metrics } from "@aws-lambda-powertools/metrics";
 import { logMetrics } from "@aws-lambda-powertools/metrics/middleware";
 import { injectLambdaContext } from "@aws-lambda-powertools/logger/middleware";
-
 import { IdempotencyConfig } from "@aws-lambda-powertools/idempotency";
 import { DynamoDBPersistenceLayer } from "@aws-lambda-powertools/idempotency/dynamodb";
 import { makeHandlerIdempotent } from "@aws-lambda-powertools/idempotency/middleware";
-
 import { ValidationError } from "../../../../errors/validation-error";
 import { errorHandler } from "../../../../shared/error-handler/error-handler";
 import { logger } from "../../../../shared/logger/logger";
 import { schemaValidator } from "../../../../shared/schema-validator/schema-validator";
 import { schema } from "./create-consultant-schema";
-
 import { config } from "../../../../config";
 import { CreateConsultant } from "../../../../dto/create-consultant/create-consultant";
-
 import { createConsultantUseCase } from "../../../../use-cases/create-consultant";
 import { getConsultancyUseCase } from "../../../../use-cases/get-consultancy";
 import { getSkillsByIdsUseCase } from "../../../../use-cases/get-skills-by-ids";
