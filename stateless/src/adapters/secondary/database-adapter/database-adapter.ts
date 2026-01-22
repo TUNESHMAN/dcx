@@ -20,34 +20,17 @@ type ExtraWhereBlock = {
 };
 
 type ListQueryOptions = {
-  /**
-   * Can include aliases, e.g. "dcx.consultancies c"
-   * IMPORTANT: this is used directly in SQL.
-   */
   tableName: string;
-
-  /** columns in the DB (snake_case) or aliased selects, e.g. [`skill_id as "skillId"`, "name"] */
   selectColumns: string[];
-
-  /** stable order, e.g. ["name asc", "skill_id asc"] */
   orderBy: string[];
-
   page: number;
   pageSize: number;
-
-  /** optional filters (exact match). Keys are DB column expressions, e.g. { "c.status": "active" } */
   equals?: Record<string, string | undefined>;
-
-  /** optional case-insensitive equals, keys are DB column expressions, e.g. { "c.country": "UK" } */
   equalsLower?: Record<string, string | undefined>;
-
-  /** optional "LIKE" on a pre-lowered column, e.g. name_lower */
   likeLower?: {
     column: string;
     term?: string;
   };
-
-  /** optional extra where blocks, e.g. EXISTS filters */
   extraWhere?: ExtraWhereBlock[];
 };
 
@@ -58,7 +41,7 @@ export async function createItem(
   const pool = await getDbPool();
   const keys = Object.keys(item);
   const values = Object.values(item);
-  const placeholders = keys.map((_, i) => `$${i + 1}`).join(", ");
+  const placeholders = keys.map((_, dbItem) => `$${dbItem + 1}`).join(", ");
 
   const query = `
     INSERT INTO ${tableName} (${keys.join(", ")})

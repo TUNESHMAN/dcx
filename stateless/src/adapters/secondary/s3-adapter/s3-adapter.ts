@@ -79,9 +79,6 @@ export async function uploadItemsToS3(
         });
 
         await s3Client.send(putCommand);
-
-        // NOTE: This is the S3 virtual-hosted style URL (not CloudFront/CDN).
-        // If you use a CDN domain, construct that in the use-case instead.
         return `https://${bucketName}.s3.amazonaws.com/${key}`;
       })
     );
